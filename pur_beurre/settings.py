@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'PJhmu(]Up\tDZA&oo#\x0b\tB8$R<')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', False)
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['167.99.143.96', 'localhost']
 
 CSRF_USE_SESSIONS = True
 
