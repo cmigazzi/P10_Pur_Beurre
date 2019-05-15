@@ -78,15 +78,26 @@ WSGI_APPLICATION = 'pur_beurre.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {'default': {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': 'pur_beurre_201903',
-                'USER': 'django',
-                'PASSWORD': 'myawesomeapp201903',
-                'HOST': 'localhost',
-                'PORT': '5432'
-                        }
-             }
+if os.environ.get("ENV") == "TEST":
+    DATABASES = {'default': {
+                    'ENGINE': 'django.db.backends.postgresql',
+                    'NAME': '',
+                    'USER': 'postgres',
+                    'PASSWORD': '',
+                    'HOST': '',
+                    'PORT': ''
+                            }
+                }
+else:
+    DATABASES = {'default': {
+                    'ENGINE': 'django.db.backends.postgresql',
+                    'NAME': 'pur_beurre_201903',
+                    'USER': 'django',
+                    'PASSWORD': 'myawesomeapp201903',
+                    'HOST': 'localhost',
+                    'PORT': '5432'
+                            }
+                }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
