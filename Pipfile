@@ -17,6 +17,7 @@ requests = "*"
 gunicorn = "*"
 django-heroku = "*"
 dj-database-url = "*"
+raven = "*"
 
 [requires]
 python_version = "3.7"
