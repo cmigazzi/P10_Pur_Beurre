@@ -5,6 +5,8 @@ import requests
 from django.urls import reverse
 from django.core.management import call_command
 
+from .off_request_fixtures import OFF_MOCK_RESPONSES
+
 
 @pytest.fixture(scope='session')
 def django_db_populated(django_db_setup, django_db_blocker):
@@ -65,6 +67,7 @@ def clean_product():
                           'fat': '24',
                           'sugars': '30',
                           'salt': 1.1938},
+            'created_t': 1351419982
             }
 
 
@@ -95,32 +98,7 @@ def off_api_request(monkeypatch):
         return requests.Response
 
     def mock_json(*args, **kwargs):
-        response = {
-            'page_size': 10,
-            "products": [
-                {'nutrition_grade_fr': 'e',
-                    'brands': 'LU,Mondelez,Granola',
-                    'product_name_fr': 'Granola Chocolat au Lait',
-                    'categories': "Snacks, Snacks sucrés, "
-                                  "Biscuits et gâteaux, "
-                                  "Biscuits, Biscuits au chocolat, "
-                                  "Biscuits au chocolat au lait",
-                    'url': "https://fr.openfoodfacts.org/produit/"
-                           "3017760826174/granola-chocolat-au-lait-lu",
-                    'image_small_url': "https://static.openfoodfacts.org/"
-                                       "images/products/301/776/082/6174/"
-                                       "front_fr.5.200.jpg",
-                    'nutriments': {
-                        'saturated-fat_100g': '13',
-                        'fat_100g': '24',
-                        'sugars_100g': '30',
-                        'salt_100g': 1.1938},
-                    'stores': "Carrefour"
-                 }
-                    ]
-                }
-
-        return response
+        return OFF_MOCK_RESPONSES["good product"]
 
     monkeypatch.setattr(requests, "get", mock_request)
     monkeypatch.setattr(requests.Response, "json", mock_json)
@@ -133,69 +111,19 @@ def off_api_bad_products(monkeypatch):
         return requests.Response
 
     def mock_json(*args, **kwargs):
-        return {'page_size': 10,
-                "products": [
-                    {'nutrition_grade_fr': 'a',
-                        'brands': '',
-                        'product_name_fr': 'Granola Chocolat au Lait',
-                        'categories': "Snacks, Snacks sucrés, "
-                                      "Biscuits et gâteaux, "
-                                      "Biscuits, Biscuits au chocolat, "
-                                      "Biscuits au chocolat au lait",
-                        'url': "https://fr.openfoodfacts.org/produit/"
-                               "3017760826174/granola-chocolat-au-lait-lu",
-                        'nutriments': {
-                            'saturated-fat_100g': '13',
-                            'fat_100g': '24',
-                            'sugars_100g': '30',
-                            'salt_100g': 1.1938},
-                        'stores': "Carrefour"
-                     },
-                    {'nutrition_grade_fr': 'b',
-                        'brands': 'LU,Mondelez,Granola',
-                        'product_name_fr': 'Granola Chocolat au Lait',
-                        'url': "https://fr.openfoodfacts.org/produit/"
-                               "3017760826174/granola-chocolat-au-lait-lu",
-                        'nutriments': {
-                           'saturated-fat_100g': '13',
-                           'fat_100g': '24',
-                           'sugars_100g': '30',
-                           'salt_100g': 1.1938},
-                        'stores': "Carrefour"
-                     },
-                    {'nutrition_grade_fr': 'c',
-                        'brands': 'LU,Mondelez,Granola',
-                        'product_name_fr': 'Granola Chocolat au Lait',
-                        'categories': "Snacks, Snacks sucrés, "
-                                      "Biscuits et gâteaux, "
-                                      "Biscuits, Biscuits au chocolat, "
-                                      "Biscuits au chocolat au lait",
-                        'url': "https://fr.openfoodfacts.org/produit/"
-                               "3017760826174/granola-chocolat-au-lait-lu",
-                        'nutriments': {
-                           'saturated-fat_100g': '',
-                           'fat_100g': '24',
-                           'sugars_100g': '30',
-                           'salt_100g': 1.1938},
-                        'stores': "Carrefour"
-                     },
-                    {'nutrition_grade_fr': 'd',
-                        'brands': 'LU,Mondelez,Granola',
-                        'product_name_fr': 'Granola Chocolat au Lait',
-                        'categories': "Snacks, Snacks sucrés, "
-                                      "Biscuits et gâteaux, "
-                                      "Biscuits, Biscuits au chocolat, "
-                                      "Biscuits au chocolat au lait",
-                        'url': "https://fr.openfoodfacts.org/produit/"
-                               "3017760826174/granola-chocolat-au-lait-lu",
-                        'nutriments': {
-                           'saturated-fat_100g': '13',
-                           'fat_100g': '24',
-                           'salt_100g': 1.1938},
-                        'stores': "Carrefour"
-                     }
-                    ]
-                }
+        return OFF_MOCK_RESPONSES["bad product"]
+    monkeypatch.setattr(requests, "get", mock_request)
+    monkeypatch.setattr(requests.Response, "json", mock_json)
+
+
+@pytest.fixture()
+def off_api_date(monkeypatch):
+    """Patch the OpenFoodFacts API call."""
+    def mock_request(*args, **kwargs):
+        return requests.Response
+
+    def mock_json(*args, **kwargs):
+        return OFF_MOCK_RESPONSES["date"]
     monkeypatch.setattr(requests, "get", mock_request)
     monkeypatch.setattr(requests.Response, "json", mock_json)
 

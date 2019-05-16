@@ -1,4 +1,5 @@
 """Contains the Api class to get data from OpenFoodFacts API."""
+import datetime
 
 import requests
 
@@ -18,14 +19,14 @@ class Api():
                              "nutriments",
                              "url",
                              "nutrition_grade_fr",
-                             "image_small_url"]
+                             "image_small_url",
+                             "created_t"]
         self.NUTRIMENTS = ["saturated-fat_100g",
                            "fat_100g",
                            "sugars_100g",
-                           "salt_100g"
-                           ]
+                           "salt_100g"]
 
-    def call(self):
+    def call(self, update=False, sort_by="unique_scnas_n", page_size=1000):
         """Request the OpenFoodFact API to get data.
 
         Returns:
@@ -33,12 +34,15 @@ class Api():
 
         """
         clean_products = []
+        if update is True:
+            week_ago = datetime.timedelta(days=7)
+            limit_date = datetime.datetime.today() - week_ago
 
         for category in self.CATEGORIES:
             payload = {"search_terms": f"{category}",
                        "search_tag": "category",
-                       "sort_by": "unique_scans_n",
-                       "page_size": 1000,
+                       "sort_by": sort_by,
+                       "page_size": page_size,
                        "json": 1}
 
             response = requests.get(
@@ -63,6 +67,11 @@ class Api():
                             for nutriment in self.NUTRIMENTS:
                                 if product[field][nutriment] in ('', None):
                                     raise KeyError
+                        if field == "created_t" \
+                                and update is True and \
+                                product[field] < int(limit_date.timestamp()):
+                            raise KeyError
+
                 except KeyError:
                     key_error += 1
                 else:
