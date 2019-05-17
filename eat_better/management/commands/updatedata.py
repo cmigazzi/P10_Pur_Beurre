@@ -13,6 +13,9 @@ class Command(BaseCommand):
         """Handle updatedata command."""
         self.stdout.write("Updating database...")
         products = Api().call(update=True, sort_by="created_t", page_size=50)
+        n_products = 0
         for product in products:
-            ProductRecorder(product)
-        self.stdout.write("Database is up to date !")
+            record = ProductRecorder(product, update=True)
+            if record.is_saved is True:
+                n_products += 1
+        self.stdout.write(f"Database is up to date ! {n_products} added.")

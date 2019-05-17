@@ -87,7 +87,6 @@ class Api():
 
                     product_renamed = self.rename_fields(clean_product,
                                                          category)
-            
                     if product_renamed is False:
                         renamed_error += 1
                         continue

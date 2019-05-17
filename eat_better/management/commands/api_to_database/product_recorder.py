@@ -1,5 +1,7 @@
 """Contains ProductRecorder class to save data."""
 
+from django.core.exceptions import ObjectDoesNotExist
+
 from eat_better.models import Nutriments, Category, Brand, Product, Hierarchy
 
 
@@ -14,12 +16,25 @@ class ProductRecorder():
         save_hierarchy -- save categories hierarchy
     """
 
-    def __init__(self, product):
+    def __init__(self, product, update=False):
         """Process product saving.
 
         Arguments:
             product {dict} -- product attributes
         """
+        self.is_saved = False
+        if update is True:
+            try:
+                Product.objects.get(url=product["url"])
+            except ObjectDoesNotExist:
+                self.process_saving(product)
+                self.is_saved = True
+        else:
+            self.process_saving(product)
+            self.is_saved = True
+
+    def process_saving(self, product):
+        """Define the order of the saving process."""
         self.product_input = product
         self.nutriments = self.save_nutriments()
         self.brand = self.save_brand()

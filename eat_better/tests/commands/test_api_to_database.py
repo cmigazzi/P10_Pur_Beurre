@@ -92,9 +92,3 @@ def test_product_recorder(clean_product):
     assert len(categories_hierarchy) != 0
     for c in categories_hierarchy:
         assert str(c.level), c.category in p.categories
-
-
-def test_call_update(off_api_date):
-    products = Api().call(update=True, sort_by="created_t", page_size=50)
-    for product in products:
-        assert product["name"] == "Granola Chocolat au Lait"
