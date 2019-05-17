@@ -1,5 +1,6 @@
 """Contains the Api class to get data from OpenFoodFacts API."""
 import datetime
+import re
 
 import requests
 
@@ -34,9 +35,6 @@ class Api():
 
         """
         clean_products = []
-        if update is True:
-            week_ago = datetime.timedelta(days=7)
-            limit_date = datetime.datetime.today() - week_ago
 
         for category in self.CATEGORIES:
             payload = {"search_terms": f"{category}",
@@ -53,6 +51,12 @@ class Api():
 
             products = json_response["products"]
 
+            if update is True:
+                week_ago = datetime.timedelta(days=7)
+                limit_date = datetime.datetime.today() - week_ago
+                products = [p for p in products
+                            if p["created_t"] > int(limit_date.timestamp())]
+
             key_error = 0
             renamed_error = 0
             n = 0
@@ -67,11 +71,6 @@ class Api():
                             for nutriment in self.NUTRIMENTS:
                                 if product[field][nutriment] in ('', None):
                                     raise KeyError
-                        if field == "created_t" \
-                                and update is True and \
-                                product[field] < int(limit_date.timestamp()):
-                            raise KeyError
-
                 except KeyError:
                     key_error += 1
                 else:
@@ -88,10 +87,10 @@ class Api():
 
                     product_renamed = self.rename_fields(clean_product,
                                                          category)
+            
                     if product_renamed is False:
                         renamed_error += 1
                         continue
-
                     clean_products.append(product_renamed)
         return clean_products
 
@@ -101,7 +100,8 @@ class Api():
         product["nutriscore"] = product.pop("nutrition_grade_fr")
         product["brand"] = product.pop("brands").split(',')[0]
         product["image"] = product.pop("image_small_url")
-        categories = product["categories"].split(', ')
+        categories = re.split(r",", product["categories"])
+        categories = [c.strip() for c in categories]
         try:
             main_category_id = categories.index(category)
         except ValueError:

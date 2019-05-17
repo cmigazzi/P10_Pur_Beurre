@@ -11,9 +11,9 @@ OFF_MOCK_RESPONSES = {
             {'nutrition_grade_fr': 'e',
                 'brands': 'LU,Mondelez,Granola',
                 'product_name_fr': 'Granola Chocolat au Lait',
-                'categories': "Snacks, Snacks sucrés, "
+                'categories': "Snacks, Snacks sucrés,"
                               "Biscuits et gâteaux, "
-                              "Biscuits, Biscuits au chocolat, "
+                              "Biscuits, Biscuits au chocolat,"
                               "Biscuits au chocolat au lait",
                 'url': "https://fr.openfoodfacts.org/produit/"
                        "3017760826174/granola-chocolat-au-lait-lu",
@@ -37,8 +37,8 @@ OFF_MOCK_RESPONSES = {
              'brands': '',
              'product_name_fr': 'Granola Chocolat au Lait',
              'categories': "Snacks, Snacks sucrés, "
-                           "Biscuits et gâteaux, "
-                           "Biscuits, Biscuits au chocolat, "
+                           "Biscuits et gâteaux,"
+                           "Biscuits, Biscuits au chocolat,"
                            "Biscuits au chocolat au lait",
              'url': "https://fr.openfoodfacts.org/produit/"
                     "3017760826174/granola-chocolat-au-lait-lu",
@@ -100,9 +100,9 @@ OFF_MOCK_RESPONSES = {
             {'nutrition_grade_fr': 'e',
                 'brands': 'LU,Mondelez,Granola',
                 'product_name_fr': "Chocolat dessert blanc",
-                'categories': "Snacks, Snacks sucrés, "
-                              "Biscuits et gâteaux, "
-                              "Biscuits, Biscuits au chocolat, "
+                'categories': "Snacks, Snacks sucrés,"
+                              "Biscuits et gâteaux,"
+                              "Biscuits, Biscuits au chocolat,"
                               "Biscuits au chocolat au lait",
                 'url': "https://fr.openfoodfacts.org/produit/"
                        "3017760826174/granola-chocolat-au-lait-lu",

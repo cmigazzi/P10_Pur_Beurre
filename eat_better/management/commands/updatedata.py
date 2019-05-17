@@ -13,6 +13,6 @@ class Command(BaseCommand):
         """Handle updatedata command."""
         self.stdout.write("Updating database...")
         products = Api().call(update=True, sort_by="created_t", page_size=50)
-        for ptoduct in products:
-            ProductRecorder(products)
+        for product in products:
+            ProductRecorder(product)
         self.stdout.write("Database is up to date !")

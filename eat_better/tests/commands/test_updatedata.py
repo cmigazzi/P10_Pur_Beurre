@@ -20,4 +20,3 @@ def test_out():
     call_command("updatedata", stdout=out)
     assert "Updating database..." in out.getvalue()
     assert "Database is up to date !" in out.getvalue()
-
