@@ -52,3 +52,21 @@ $(document).ready(function() {
         });
     });
 });
+
+// Filter for my_products page
+$(document).ready(function() {
+    $("#showOriginals").click(function () {
+        $("#showSubstitutes").attr("disabled", false);
+        $("#showOriginals").attr("disabled", true);
+        $("#substitutes").addClass('d-none').removeClass('d-flex');
+        $('#originals').addClass('d-flex').removeClass('d-none');
+        $("#listTitle").text("Mes produits recherchés");        
+    });
+    $("#showSubstitutes").click(function () {
+        $("#showSubstitutes").attr("disabled", true);
+        $("#showOriginals").attr("disabled", false);
+        $("#originals").addClass('d-none').removeClass('d-flex');
+        $('#substitutes').addClass('d-flex').removeClass('d-none');
+        $("#listTitle").text("Mes produits enregistrés");
+    });
+});

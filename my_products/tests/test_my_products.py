@@ -15,7 +15,7 @@ class TestMyProducts:
         templates = [t.name for t in response.templates]
 
         assert response.status_code == 200
-        assert "my-products.html" in templates
+        assert "my_products/my-products.html" in templates
 
     def test_no_products(self, client, user_for_test):
         response = client.get(reverse("my_products"))

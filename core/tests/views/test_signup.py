@@ -19,7 +19,7 @@ class TestSignup:
     def test_template(self, client):
         """Test that view use signup.html."""
         response = client.get(reverse("signup"))
-        assert "signup.html" in [t.name for t in response.templates]
+        assert "core/signup.html" in [t.name for t in response.templates]
 
     def test_view_return_user_creation_form(self, client):
         """Test that there is user creation form."""

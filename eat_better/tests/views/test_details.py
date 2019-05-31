@@ -15,7 +15,7 @@ class TestDetails:
     def test_templates(self, client):
         response = client.get(reverse("details", args=[3803]))
         templates = [t.name for t in response.templates]
-        assert "details.html" in templates
+        assert "eat_better/details.html" in templates
 
     def test_404_error(self, client):
         response = client.get(reverse("details", args=[3805643]))

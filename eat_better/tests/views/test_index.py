@@ -19,8 +19,8 @@ class TestIndex():
         """Test index url use index.html."""
         templates = [t.name for t in index_url_get.templates]
         assert index_url_get.context["search_form"]
-        assert "index.html" in templates
-        assert "search.html" in templates
+        assert "eat_better/index.html" in templates
+        assert "eat_better/search.html" in templates
 
     def test_post(self, client, django_db_blocker):
         with django_db_blocker.unblock():

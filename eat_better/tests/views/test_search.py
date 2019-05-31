@@ -20,7 +20,7 @@ class TestSearch:
         context = {"product": "Cake aux fruits"}
         response = client.get(reverse("search"), context)
         templates = [t.name for t in response.templates]
-        assert "results.html" in templates
+        assert "eat_better/results.html" in templates
 
     def test_products_name_in_templates(self, client, django_db_populated):
         context = {"product": "Cake aux fruits"}
