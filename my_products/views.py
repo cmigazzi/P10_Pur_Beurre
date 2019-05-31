@@ -50,4 +50,4 @@ def my_products(request):
     user = request.user
     products = Substitution.objects.filter(user=user)
     context = {"products": products}
-    return render(request, "my-products.html", context)
+    return render(request, "my_products/my-products.html", context)

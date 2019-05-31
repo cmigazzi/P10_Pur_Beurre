@@ -15,4 +15,4 @@ def signup(request):
     else:
         form = UserCreationForm()
     context = {"user_creation_form": form}
-    return render(request, "signup.html", context)
+    return render(request, "core/signup.html", context)

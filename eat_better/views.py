@@ -20,12 +20,12 @@ def index(request):
 
     searched_form = SearchForm()
     context = {"search_form": searched_form}
-    return render(request, "index.html", context)
+    return render(request, "eat_better/index.html", context)
 
 
 def legals(request):
     """Return view for legals url."""
-    return render(request, "mentions-legales.html")
+    return render(request, "eat_better/mentions-legales.html")
 
 
 def search(request):
@@ -66,7 +66,7 @@ def search(request):
     context = {"product": searched_product,
                "is_healthy": is_healthy,
                "results": results}
-    return render(request, "results.html", context)
+    return render(request, "eat_better/results.html", context)
 
 
 def details(request, id_product):
@@ -79,4 +79,4 @@ def details(request, id_product):
         context = {"product": product,
                    "nutriscore_url": f"img/nutriscore/{product.nutriscore}.png",
                    "nutriments": product.nutriments}
-        return render(request, "details.html", context)
+        return render(request, "eat_better/details.html", context)

@@ -40,7 +40,7 @@ $(document).ready(function() {
             beforeSend: function(request) {
                 request.setRequestHeader("X-CSRFToken", csrftoken);
             },
-            url: "/save-substitute/",
+            url: "/my-products/save-substitute/",
             dataType: "json",
             data: JSON.stringify(data),
             success: function(data) {
