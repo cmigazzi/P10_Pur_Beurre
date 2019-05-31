@@ -52,7 +52,7 @@
           </li>
           {% endif %}
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="/my-products">{% include 'carotte.svg' %}<span class="d-lg-none ml-3">Mes aliments</span></a>
+            <a class="nav-link js-scroll-trigger" href="{% url 'my_products' %}">{% include 'carotte.svg' %}<span class="d-lg-none ml-3">Mes aliments</span></a>
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item">

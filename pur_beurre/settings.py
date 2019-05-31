@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'eat_better',
     'core',
+    'my_products'
 ]
 
 MIDDLEWARE = [

@@ -1,5 +1,4 @@
 from django.contrib import admin
 
-from .models import Substitution
+# Register the models
 
-admin.site.register(Substitution)

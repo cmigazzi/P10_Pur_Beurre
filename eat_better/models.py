@@ -62,17 +62,3 @@ class Hierarchy(models.Model):
         """Order by level desc."""
 
         ordering = ("-level",)
-
-
-class Substitution(models.Model):
-    """Define the substitution columns/attributes."""
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    original = models.ForeignKey(Product, on_delete=models.CASCADE,
-                                 related_name="original")
-    substitute = models.ForeignKey(Product, on_delete=models.CASCADE,
-                                   related_name="substitute")
-
-    def __str__(self):
-        """String representation of the model."""
-        return f"oridignal: {self.original}, substitue:{self.substitute}"
