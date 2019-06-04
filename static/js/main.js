@@ -31,7 +31,7 @@ $(".search-field").autocomplete({
 // Ajax request for saving substitute
 $(document).ready(function() {
     originalId = $("#original").attr("data-id")
-    $(".substitute").click(function(e) {
+    $(".save-substitute").click(function(e) {
         e.preventDefault();
         var link = $(this)
         substituteId = link.attr("data-id")
@@ -44,10 +44,33 @@ $(document).ready(function() {
             dataType: "json",
             data: JSON.stringify(data),
             success: function(data) {
-                console.log(data.title)
                 $(".modal-title").text(data.title);
                 $(".modal-body").text(data.message);
                 $("#ajaxModal").modal("show");
+            }
+        });
+    });
+});
+
+// Ajax request for deleting substitute
+$(document).ready(function() {
+    $(".delete-substitute").click(function(e) {
+        e.preventDefault();
+        var link = $(this)
+        substitutionId = link.attr("data-id")
+        var data = {"id": substitutionId}
+        $.post({
+            beforeSend: function(request) {
+                request.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            url: "/my-products/delete-substitute/",
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: function(data) {
+                $(".modal-title").text(data.title);
+                $(".modal-body").text(data.message);
+                $("#ajaxModal").modal("show");
+                $("#substitution-"+substitutionId).addClass("d-none").removeClass("d-flex");
             }
         });
     });

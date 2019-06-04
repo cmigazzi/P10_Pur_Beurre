@@ -26,7 +26,7 @@
       <div class="container results-list d-flex flex-wrap justify-content-around" id="substitutes">
         {% for substitution in products %}
           {% with substitution.substitute as p %}
-          <div class="product d-flex flex-column col-lg-3 col-md-4 col-12 text-center rounded">
+          <div class="product d-flex flex-column col-lg-3 col-md-4 col-12 text-center rounded" id="substitution-{{substitution.id}}">
               <a href="{% url 'details' p.id %}">
               <div class="product-img row d-flex flex-wrap align-items-center mx-auto">
                   <img class="rounded img-fluid align-middle mx-auto" src="{{ p.image }}" alt="">
@@ -35,6 +35,9 @@
               <div class="nutriscore rounded-circle text-center">{{ p.nutriscore|upper }}</div>
               <div class="product-name mt-auto container">
                   <a href="{% url 'details' p.id %}">{{ p.name|truncatechars:25 }}</a>
+              </div>
+              <div class="container save rounded-bottom py-2 py-lg-0">
+                <a href="" class="delete-substitute" data-id="{{ substitution.id }}"><i class="fas fa-trash-alt" aria-hidden="true"></i> Supprimer</a>
               </div>
           </div> <!-- product -->
           {% endwith %}
@@ -59,4 +62,33 @@
         </div> <!-- container -->
       {% endif %}
   </section>
+
+  <!-- Modal box for succes Ajax save -->
+  <div id="ajaxModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          {% if not user.is_authenticated %}
+          <form action="{% url 'login' %}">
+              <button type="submit" class="btn btn-primary">Connexion</button>
+          </form>
+          <form action="{% url 'signup' %}">
+              <button type="submit" class="btn btn-primary">Créer un compte</button>
+          </form>
+          {% else %}
+            <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+          {% endif %}
+        </div> <!-- modal-footer -->
+      </div> <!-- modal-content-->
+    </div> <!-- modal-dialog -->
+  </div> <!-- modal -->
+
 {% endblock %}
