@@ -1,0 +1,20 @@
+<div class="container results-list d-flex flex-wrap justify-content-around" id="substitutes">
+    {% for substitution in products %}
+      {% with substitution.substitute as p %}
+      <div class="product d-flex flex-column col-lg-3 col-md-4 col-12 text-center rounded" id="substitution-{{substitution.id}}">
+          <a href="{% url 'details' p.id %}">
+          <div class="product-img row d-flex flex-wrap align-items-center mx-auto">
+              <img class="rounded img-fluid align-middle mx-auto" src="{{ p.image }}" alt="">
+          </div>
+          </a>
+          <div class="nutriscore rounded-circle text-center">{{ p.nutriscore|upper }}</div>
+          <div class="product-name mt-auto container">
+              <a href="{% url 'details' p.id %}">{{ p.name|truncatechars:25 }}</a>
+          </div>
+          <div class="container save rounded-bottom py-2 py-lg-0">
+            <a href="" class="delete-substitute" data-id="{{ substitution.id }}"><i class="fas fa-trash-alt" aria-hidden="true"></i> Supprimer</a>
+          </div>
+      </div> <!-- product -->
+      {% endwith %}
+    {% endfor %}
+  </div> <!-- container -->

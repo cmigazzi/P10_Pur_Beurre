@@ -67,3 +67,12 @@ class TestSearch:
         response = client.get(reverse("search"), context)
 
         assert response.context["is_healthy"] is True
+
+    def test_search_with_product_id(self, client, django_db_populated):
+        product_id = 3803
+        product = Product.objects.get(id=product_id)
+        response = client.get(reverse("search_id",
+                              kwargs={"id_product": product_id})
+                              )
+
+        assert response.context["product"] == product

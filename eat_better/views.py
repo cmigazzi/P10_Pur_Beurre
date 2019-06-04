@@ -28,11 +28,15 @@ def legals(request):
     return render(request, "eat_better/mentions-legales.html")
 
 
-def search(request):
+def search(request, id_product=None):
     """Return view for search url."""
     try:
-        searched_product = Product.objects.filter(
-                    name=request.GET.get("product"))[0]
+        if id_product is None:
+            searched_product = Product.objects.filter(
+                        name=request.GET.get("product"))[0]
+        else:
+            searched_product = Product.objects.get(id=id_product)
+  
         if searched_product.nutriscore == "a":
             is_healthy = True
             results = []
