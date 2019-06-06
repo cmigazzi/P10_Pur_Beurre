@@ -3,7 +3,7 @@ from django.db import models
 
 class SubstituteQuerySet(models.QuerySet):
 
-    def get_substitutes(self, original, user):
+    def get_substitutes_by_user(self, original, user):
         return self.filter(user=user, original=original)
 
 
@@ -13,4 +13,4 @@ class SubstitutionManager(models.Manager):
         return SubstituteQuerySet(self.model, using=self._db)
 
     def all(self, original, user):
-        return self.get_queryset.get_substitutes(original)
+        return self.get_queryset().get_substitutes_by_user(original, user)

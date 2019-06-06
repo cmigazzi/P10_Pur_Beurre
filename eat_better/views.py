@@ -6,6 +6,8 @@ from django.http import JsonResponse, Http404
 from .forms import SearchForm
 from .models import Product
 
+from my_products.models import Substitution
+
 
 def index(request):
     """Return view for index url."""
@@ -38,18 +40,26 @@ def search(request, id_product=None):
             searched_product = Product.objects.get(id=id_product)
 
         if searched_product.nutriscore == "a":
+            products_saved = None
             is_healthy = True
             results = []
         else:
             results = Product.search.substitutes(searched_product)
             is_healthy = False
+            if request.user.is_authenticated:
+                products_saved = Substitution.substitutes.all(searched_product,
+                                                              request.user)
+            else:
+                products_saved = None
 
     except IndexError:
         searched_product = request.GET.get("product")
+        products_saved = None
         results = []
         is_healthy = False
 
     context = {"product": searched_product,
+               "products_saved": products_saved,
                "is_healthy": is_healthy,
                "results": results}
     return render(request, "eat_better/results.html", context)

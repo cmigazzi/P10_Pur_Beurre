@@ -13,10 +13,9 @@ class TestSubstitutionManager:
         original = Product.objects.get(id=3803)
         substitute = Product.objects.get(id=3781)
         user = User.objects.get(email="test@test.com")
-        substitution = Substitution.objects.get_or_create(
+        substitution, created = Substitution.objects.get_or_create(
                     user=user,
                     original=original,
                     substitute=substitute
                             )
-
-        assert Substitution.substitutes.all(original, user) == substitution
+        assert substitution in Substitution.substitutes.all(original, user)

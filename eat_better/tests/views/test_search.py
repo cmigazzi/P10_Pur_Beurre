@@ -5,7 +5,8 @@ import pytest
 from django.urls import reverse
 
 from eat_better.models import Product
-
+from my_products.models import Substitution
+from core.models import User
 
 @pytest.mark.django_db
 class TestSearch:
@@ -65,3 +66,17 @@ class TestSearch:
                               )
 
         assert response.context["product"] == product
+
+    def test_product_saved(self, client, django_db_populated, user_for_test):
+        original = Product.objects.get(id=3803)
+        substitute = Product.objects.get(id=3781)
+        user = User.objects.get(email="test@test.com")
+        substitution, created = Substitution.objects.get_or_create(
+                    user=user,
+                    original=original,
+                    substitute=substitute
+                            )
+        response = client.get(reverse("search"))
+
+        assert substitution in response.context["products_saved"]
+
