@@ -36,30 +36,12 @@ def search(request, id_product=None):
                         name=request.GET.get("product"))[0]
         else:
             searched_product = Product.objects.get(id=id_product)
-  
+
         if searched_product.nutriscore == "a":
             is_healthy = True
             results = []
         else:
-            results = []
-            for hierarchy in searched_product.hierarchy_set.all():
-                pre_results = Product.objects.filter(
-                                nutriscore__lt=searched_product.nutriscore,
-                                categories__name=hierarchy.category) \
-                                .order_by("nutriscore")
-
-                if len(results) == 0 and len(pre_results) != 0:
-                    results = pre_results
-                    if len(results) > 80:
-                        break
-
-                elif len(results) + len(pre_results) > 80:
-                    results.union(pre_results)
-                    break
-
-                elif len(results) != 0:
-                    results.union(pre_results)
-
+            results = Product.search.substitutes(searched_product)
             is_healthy = False
 
     except IndexError:

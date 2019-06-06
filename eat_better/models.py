@@ -1,5 +1,6 @@
 from django.db import models
-from core.models import User
+
+from .managers import ProductManager
 
 
 class Category(models.Model):
@@ -33,6 +34,9 @@ class Brand(models.Model):
 
 class Product(models.Model):
     """Define the product columns/attributes."""
+
+    objects = models.Manager()
+    search = ProductManager()
 
     name = models.CharField(max_length=150)
     nutriscore = models.CharField(max_length=1)

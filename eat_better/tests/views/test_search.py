@@ -49,17 +49,6 @@ class TestSearch:
         for product in response.context["results"]:
             assert isinstance(product, Product)
 
-    def test_query_results(self, client, django_db_populated):
-        context = {"product": "Cake aux fruits"}
-        searched_product = Product.objects.get(name=context["product"])
-        categories = searched_product.categories.all()
-        response = client.get(reverse("search"), context)
-        results = response.context["results"]
-        for product in results:
-            assert product.nutriscore < searched_product.nutriscore
-            assert len([c for c in product.categories.all()
-                        if c in categories]) != 0
-
     def test_searched_product_is_already_healthy(self, client,
                                                  django_db_populated):
         searched_product = Product.objects.filter(nutriscore="a")[0]

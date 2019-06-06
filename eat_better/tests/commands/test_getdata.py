@@ -20,7 +20,7 @@ def test_class():
 
 
 @pytest.mark.django_db
-def test_handle():
+def test_handle(django_db_createdb):
     """Test the handle method."""
     assert len(Product.objects.all()) == 0
     c = Command()
