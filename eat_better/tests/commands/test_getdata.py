@@ -19,8 +19,9 @@ def test_class():
     assert issubclass(Command, BaseCommand)
 
 
+@pytest.mark.first
 @pytest.mark.django_db
-def test_handle(django_db_createdb):
+def test_handle():
     """Test the handle method."""
     assert len(Product.objects.all()) == 0
     c = Command()
@@ -28,7 +29,7 @@ def test_handle(django_db_createdb):
     assert Product.objects.get(name="Granola Chocolat au Lait")
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_getdata_output():
     """Test the interface of the command."""
     out = StringIO()
