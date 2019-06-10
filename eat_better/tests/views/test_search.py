@@ -8,6 +8,7 @@ from eat_better.models import Product
 from my_products.models import Substitution
 from core.models import User
 
+
 @pytest.mark.django_db
 class TestSearch:
 
@@ -76,7 +77,8 @@ class TestSearch:
                     original=original,
                     substitute=substitute
                             )
-        response = client.get(reverse("search"))
+        response = client.get(reverse("search_id",
+                                      kwargs={"id_product": original.id})
+                              )
 
-        assert substitution in response.context["products_saved"]
-
+        assert substitution.substitute in response.context["products_saved"]

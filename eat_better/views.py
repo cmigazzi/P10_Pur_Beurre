@@ -47,8 +47,9 @@ def search(request, id_product=None):
             results = Product.search.substitutes(searched_product)
             is_healthy = False
             if request.user.is_authenticated:
-                products_saved = Substitution.substitutes.all(searched_product,
-                                                              request.user)
+                substitutes = Substitution.substitutes.all(searched_product,
+                                                           request.user)
+                products_saved = [p.substitute for p in substitutes]
             else:
                 products_saved = None
 
@@ -72,7 +73,8 @@ def details(request, id_product):
     except Product.DoesNotExist:
         raise Http404("Aucun produit trouvé.")
     else:
-        context = {"product": product,
-                   "nutriscore_url": f"img/nutriscore/{product.nutriscore}.png",
-                   "nutriments": product.nutriments}
+        context = {
+            "product": product,
+            "nutriscore_url": f"img/nutriscore/{product.nutriscore}.png",
+            "nutriments": product.nutriments}
         return render(request, "eat_better/details.html", context)

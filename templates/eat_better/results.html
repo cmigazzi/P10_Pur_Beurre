@@ -32,7 +32,11 @@
               <a href="{% url 'details' p.id %}">{{ p.name|truncatechars:30 }}</a>
           </div>            
           <div class="container save rounded-bottom py-2 py-lg-0">
+            {% if p in products_saved %}
+            <span class="save-substitute">Déjà sauvegardé</span>
+            {% else %}
             <a href="" class="save-substitute" data-id="{{ p.id }}"><i class="fa fa-save" aria-hidden="true"></i> Sauvegarder</a>
+            {% endif %}
           </div>
 
           <!-- Modal box for succes Ajax save -->
