@@ -1,5 +1,7 @@
 """Contains tests for my_products view."""
 
+import pytest
+
 from django.urls import reverse
 
 
@@ -21,3 +23,9 @@ class TestMyProducts:
         response = client.get(reverse("my_products"))
         result = bytes("Aucun produit enregistré", "utf-8")
         assert result in response.content
+
+    @pytest.mark.django_db
+    def test_multiple_substitutes(self, django_db_populated, 
+                                  client, user_for_test, multiple_substitutes):
+        response = client.get(reverse("my_products"))
+        assert len(response.context["originals"]) == 1

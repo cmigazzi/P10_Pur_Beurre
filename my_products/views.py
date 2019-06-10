@@ -49,7 +49,8 @@ def my_products(request):
     """Render favourites products view."""
     user = request.user
     products = Substitution.objects.filter(user=user)
-    context = {"products": products}
+    context = {"products": products,
+               "originals": {p.original for p in products}}
     return render(request, "my_products/my-products.html", context)
 
 
@@ -65,8 +66,19 @@ def delete_substitute(request):
                         "message": "Le produit a bien été supprimé."}
         else:
             response = {"title": "Non connecté",
-                        "message": "Connectez-vous pour pouvoir gérer vos produits"}
+                        "message":
+                            "Connectez-vous pour pouvoir gérer vos produits"}
     else:
         response = {"title": "Erreur",
                     "message": "Erreur de requête"}
     return JsonResponse(response)
+
+
+@login_required
+def show_substitutes(request, original_id):
+    """handle ajax request to show all subtitutes saved."""
+    substitutions = Substitution.objects.filter(user=request.user,
+                                                original__id=original_id)
+    substitutes = [p.substitute for p in substitutions]
+    context = {"substitutes": substitutes}
+    return render(request, "my_products/show-substitutes.html", context)
