@@ -93,3 +93,34 @@ $(document).ready(function() {
         $("#listTitle").text("Mes produits enregistrés");
     });
 });
+
+// Aax request for showing original products in modals
+$(document).ready(function() {
+    $(".show-original").click(function(e) {
+        e.preventDefault();
+        var link = $(this)
+        originalId = link.attr("data-id")
+        var data = {"id": originalId}
+        $.post({
+            beforeSend: function(request) {
+                request.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            url: "/my-products/show-original/",
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: function(data) {
+                if (data.error == true) {
+                    $(".modal-title").text(data.title);
+                    $(".modal-body").text(data.message);
+                } else {
+                    $(".modal-title").text(data.title);
+                    $(".detailUrl").attr("href", data.details);
+                    $("#imageSrc").attr("src", data.image);
+                    $("#nutriscore").text(data.nutriscore);
+                    $("#productName").text(data.name);                    
+                }
+                $("#originalModal").modal("show");
+            }
+        });
+    });
+});

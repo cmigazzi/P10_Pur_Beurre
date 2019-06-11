@@ -31,7 +31,7 @@ $(".search-field").autocomplete({
 // Ajax request for saving substitute
 $(document).ready(function() {
     originalId = $("#original").attr("data-id")
-    $(".substitute").click(function(e) {
+    $(".save-substitute").click(function(e) {
         e.preventDefault();
         var link = $(this)
         substituteId = link.attr("data-id")
@@ -40,14 +40,86 @@ $(document).ready(function() {
             beforeSend: function(request) {
                 request.setRequestHeader("X-CSRFToken", csrftoken);
             },
-            url: "/save-substitute/",
+            url: "/my-products/save-substitute/",
             dataType: "json",
             data: JSON.stringify(data),
             success: function(data) {
-                console.log(data.title)
                 $(".modal-title").text(data.title);
                 $(".modal-body").text(data.message);
                 $("#ajaxModal").modal("show");
+            }
+        });
+    });
+});
+
+// Ajax request for deleting substitute
+$(document).ready(function() {
+    $(".delete-substitute").click(function(e) {
+        e.preventDefault();
+        var link = $(this)
+        substitutionId = link.attr("data-id")
+        var data = {"id": substitutionId}
+        $.post({
+            beforeSend: function(request) {
+                request.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            url: "/my-products/delete-substitute/",
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: function(data) {
+                $(".modal-title").text(data.title);
+                $(".modal-body").text(data.message);
+                $("#ajaxModal").modal("show");
+                $("#substitution-"+substitutionId).addClass("d-none").removeClass("d-flex");
+            }
+        });
+    });
+});
+
+// Filter for my_products page
+$(document).ready(function() {
+    $("#showOriginals").click(function () {
+        $("#showSubstitutes").attr("disabled", false);
+        $("#showOriginals").attr("disabled", true);
+        $("#substitutes").addClass('d-none').removeClass('d-flex');
+        $('#originals').addClass('d-flex').removeClass('d-none');
+        $("#listTitle").text("Mes produits recherchés");        
+    });
+    $("#showSubstitutes").click(function () {
+        $("#showSubstitutes").attr("disabled", true);
+        $("#showOriginals").attr("disabled", false);
+        $("#originals").addClass('d-none').removeClass('d-flex');
+        $('#substitutes').addClass('d-flex').removeClass('d-none');
+        $("#listTitle").text("Mes produits enregistrés");
+    });
+});
+
+// Aax request for showing original products in modals
+$(document).ready(function() {
+    $(".show-original").click(function(e) {
+        e.preventDefault();
+        var link = $(this)
+        originalId = link.attr("data-id")
+        var data = {"id": originalId}
+        $.post({
+            beforeSend: function(request) {
+                request.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            url: "/my-products/show-original/",
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: function(data) {
+                if (data.error == true) {
+                    $(".modal-title").text(data.title);
+                    $(".modal-body").text(data.message);
+                } else {
+                    $(".modal-title").text(data.title);
+                    $(".detailUrl").attr("href", data.details);
+                    $("#imageSrc").attr("src", data.image);
+                    $("#nutriscore").text(data.nutriscore);
+                    $("#productName").text(data.name);                    
+                }
+                $("#originalModal").modal("show");
             }
         });
     });

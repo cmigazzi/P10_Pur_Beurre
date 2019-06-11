@@ -11,6 +11,9 @@
           <div class="product-name mt-auto container">
               <a href="{% url 'details' p.id %}">{{ p.name|truncatechars:25 }}</a>
           </div>
+          <div class="container see-substitute py-2 py-lg-0">
+            <a data-toggle="modal" class="show-original"  data-id="{{ substitution.original.id }}" href="">Voir le produit orignal</a>
+          </div>
           <div class="container save rounded-bottom py-2 py-lg-0">
             <a href="" class="delete-substitute" data-id="{{ substitution.id }}"><i class="fas fa-trash-alt" aria-hidden="true"></i> Supprimer</a>
           </div>
@@ -18,3 +21,42 @@
       {% endwith %}
     {% endfor %}
   </div> <!-- container -->
+
+  <!-- Modal box for original showing -->
+  <div id="originalModal" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="product d-flex flex-column col-lg-3 col-md-4 col-12 text-center rounded mx-auto">
+              <a class="detailUrl" href="#url">
+                <div class="product-img row d-flex flex-wrap align-items-center mx-auto">
+                  <img id="imageSrc" class="rounded img-fluid align-middle mx-auto" src="" alt="">
+                </div>
+              </a>
+              <div class="nutriscore rounded-circle text-center" id="nutriscore"></div>
+              <div class="product-name mt-auto container">
+                <a class="detailUrl" href="" id="productName"></a>
+              </div>
+            </div> <!-- product -->
+          </div>
+          <div class="modal-footer">
+            {% if not user.is_authenticated %}
+            <form action="{% url 'login' %}">
+                <button type="submit" class="btn btn-primary">Connexion</button>
+            </form>
+            <form action="{% url 'signup' %}">
+                <button type="submit" class="btn btn-primary">Créer un compte</button>
+            </form>
+            {% else %}
+              <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            {% endif %}
+          </div> <!-- modal-footer -->
+        </div> <!-- modal-content-->
+      </div> <!-- modal-dialog -->
+    </div> <!-- modal -->

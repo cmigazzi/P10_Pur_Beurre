@@ -84,3 +84,23 @@ def show_substitutes(request, original_id):
     context = {"substitutes": substitutes,
                "original": original}
     return render(request, "my_products/show-substitutes.html", context)
+
+
+@login_required
+@require_http_methods(["POST"])
+def show_original(request):
+    if request.is_ajax():
+        data = json.loads(request.body.decode("utf-8"))
+        original = Product.objects.get(id=data["id"])
+        response = {"title": "Le produit original",
+                    "name": original.name,
+                    "nutriscore": original.nutriscore,
+                    "details": f"/details/{original.id}",
+                    "image": original.image,
+                    "error": False}
+    else:
+        response = {"title": "Erreur",
+                    "message": "Erreur de requête",
+                    "error": True}
+
+    return JsonResponse(response)

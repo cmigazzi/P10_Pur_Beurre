@@ -292,6 +292,18 @@ header.results {
     right: -0.75rem;
 }
 
+.see-substitute, .see-original {
+    background-color: #c45525;
+}
+
+.see-substitute a, .see-original a {
+    color: #fff;
+}
+
+.see-substitute a:hover, .see-original a:hover {
+    color: #86ebe6;
+}
+
 /* Details page */
 #img-details {
     margin-bottom: 3rem;

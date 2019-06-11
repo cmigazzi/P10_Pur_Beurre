@@ -10,5 +10,6 @@ urlpatterns = [
     path("show-substitutes/<original_id>",
          views.show_substitutes,
          name="show_substitutes"),
+    path("show-original/", views.show_original, name="show_original"),
     path("", views.my_products, name="my_products")
 ]
