@@ -7,6 +7,8 @@ urlpatterns = [
     path("delete-substitute/",
          views.delete_substitute,
          name="delete_substitute"),
-    path("show-substitutes/<original_id>", views.show_substitutes, name="show_substitutes"),
+    path("show-substitutes/<original_id>",
+         views.show_substitutes,
+         name="show_substitutes"),
     path("", views.my_products, name="my_products")
 ]

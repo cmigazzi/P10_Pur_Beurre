@@ -26,4 +26,12 @@ class TestShowSubstitutes:
                                       kwargs={"original_id": product_id}))
         assert response.status_code == 302
         assert "login" in response.url
-                 
+
+    def test_original_product_is_in_context(self, client, user_for_test,
+                                            django_db_populated,
+                                            multiple_substitutes):
+        product_id = 3803
+        product = Product.objects.get(id=product_id)
+        response = client.get(reverse("show_substitutes",
+                                      kwargs={"original_id": product_id}))
+        assert response.context["original"] == product          

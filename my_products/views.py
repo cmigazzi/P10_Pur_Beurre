@@ -77,8 +77,10 @@ def delete_substitute(request):
 @login_required
 def show_substitutes(request, original_id):
     """handle ajax request to show all subtitutes saved."""
+    original = Product.objects.get(id=original_id)
     substitutions = Substitution.objects.filter(user=request.user,
                                                 original__id=original_id)
     substitutes = [p.substitute for p in substitutions]
-    context = {"substitutes": substitutes}
+    context = {"substitutes": substitutes,
+               "original": original}
     return render(request, "my_products/show-substitutes.html", context)

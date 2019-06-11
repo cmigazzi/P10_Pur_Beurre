@@ -11,7 +11,7 @@
               <a href="{% url 'details' p.id %}">{{ p.name|truncatechars:25 }}</a>
           </div>
           <div class="container see-substitute py-2 py-lg-0">
-              <a href="#">Voir les substituts</a>
+              <a href="{% url 'show_substitutes' p.id%}">Voir les substituts</a>
             </div>
           <div class="container save rounded-bottom py-2 py-lg-0">
             <a href="{% url 'search_id' p.id %}"><i class="fas fa-search" aria-hidden="true"></i> Relancer la recherche</a>
